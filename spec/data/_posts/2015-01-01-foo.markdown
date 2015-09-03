@@ -1,0 +1,8 @@
+---
+layout: post
+title: Foo Dumpling
+category: foo
+---
+
+This is a post about foo. About foo. About foo. A foo is a wotsit.
+A wotsit. A wotsit.

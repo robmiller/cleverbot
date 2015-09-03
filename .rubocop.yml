@@ -1,0 +1,32 @@
+AllCops:
+    Exclude:
+        - "coverage/**/*"
+        - "data/**/*"
+        - "public/**/*"
+        - "spec/**/*"
+        - "views/**/*"
+        - "helpers/blank.rb"
+
+Lint/NestedMethodDefinition:
+    Exclude:
+        - "helpers/dates.rb"
+
+Style/HashSyntax:
+    Exclude:
+        - "Rakefile"
+
+Style/TrailingComma:
+    EnforcedStyleForMultiline: comma
+
+Style/MultilineOperationIndentation:
+    EnforcedStyle: indented
+
+Style/DoubleNegation:
+    Enabled: false
+
+Style/Documentation:
+    Enabled: false
+
+Style/StringLiterals:
+    EnforcedStyle: double_quotes
+    Enabled: true

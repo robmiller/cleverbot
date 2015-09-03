@@ -1,0 +1,8 @@
+---
+layout: post
+title: Bar
+category: baz
+---
+
+This is an article about bar. This article contains lots of things,
+which are mostly about bar. Bar is a thing.
