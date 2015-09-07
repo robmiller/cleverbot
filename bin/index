@@ -1,1 +1,21 @@
 #!/usr/bin/env ruby
+
+require_relative "../lib/cleverbot"
+
+require "digest"
+
+unless ARGV[0]
+  $stderr.puts "Usage: index path/to/directory"
+  exit 1
+end
+
+source_directory = Pathname(ARGV[0]).realpath
+
+data_dir = Pathname(__dir__) + ".." + "data"
+index_file = data_dir + (Digest::SHA256.hexdigest(source_directory.to_s) + ".json")
+
+scanner = Scanner.new(source_directory)
+corpus  = Corpus.new(scanner)
+index   = Index.build(corpus)
+
+index.persist(index_file)
