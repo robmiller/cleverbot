@@ -7,6 +7,8 @@ describe "searching" do
     ENV["SOURCE_DIRECTORY"] =
       (Pathname(__dir__) + ".." + ".." + "data").to_s
     ENV["SLACK_TOKEN"] = "VALID_TOKEN"
+    ENV["SLACK_WEBHOOK_URL"] = "https://example.slack.com/foo"
+    ENV["SITE_URL"] = "http://example.com"
   end
 
   let(:valid_params) do

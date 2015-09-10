@@ -1,0 +1,9 @@
+<% if @articles.empty? %>
+	No articles matched your query.
+<% else %>
+	The following articles matched your query:
+
+	<% @articles.each do |article| %>
+		<%= article.title %> - <%= article.url(@base_url) -%>
+	<% end %>
+<% end %>

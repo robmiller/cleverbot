@@ -3,7 +3,12 @@ require "bundler/setup"
 require "sinatra"
 require "sinatra/param"
 
+require "slack-notifier"
+
 require_relative "../lib/cleverbot"
+
+set :views, settings.root + "/views"
+set :erb, trim: "-"
 
 post "/search" do
   param :token,       String, is: ENV.fetch("SLACK_TOKEN")
@@ -24,7 +29,19 @@ post "/search" do
   begin
     index = Index.load(index_file)
 
-    articles = index.find(params[:text])
+    @query    = params[:text]
+    @articles = index.find(@query)
+    @articles = @articles.map { |a| Article.from_file(a) }
+
+    @base_url = ENV.fetch("SITE_URL")
+
+    notifier = Slack::Notifier.new(
+      ENV.fetch("SLACK_WEBHOOK_URL"),
+      channel: params[:channel_id],
+    )
+
+    message = erb :message
+    notifier.ping(message)
   rescue Index::NotFound
     halt 500, "Index not built"
   end

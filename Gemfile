@@ -6,6 +6,8 @@ gem "phrasie"
 gem "sinatra"
 gem "sinatra-param"
 
+gem "slack-notifier"
+
 gem "pry"
 
 group :development do

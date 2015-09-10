@@ -37,4 +37,30 @@ describe Article do
 
     expect(article.keywords).to eq([["foo", 1, 1], ["bar", 1, 1]])
   end
+
+  let(:sample_file) do
+    Pathname(__dir__) + ".." + ".." + "data" + "_posts" + "2015-01-01-foo.markdown"
+  end
+
+  describe ".from_file" do
+    it "will read information from a file" do
+      article = Article.from_file(sample_file)
+      expect(article.title).to eq("Foo Dumpling")
+      expect(article.category).to eq("foo")
+      expect(article.content).to match(/This is a post about foo/)
+    end
+  end
+
+  describe "#url" do
+    it "generates a URL for an article" do
+      article = Article.new(
+        title: "An Article",
+        content: "This is an article",
+        category: "foo",
+        filename: "/var/foo/2015-01-01-an-article.markdown",
+      )
+
+      expect(article.url("http://example.com")).to eq("http://example.com/foo/an-article")
+    end
+  end
 end
