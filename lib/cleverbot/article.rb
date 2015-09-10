@@ -16,7 +16,7 @@ class Article
   end
 
   def slug
-    filename.basename.sub(/^[0-9\-]+/, "").sub(/\.markdown$/, "")
+    filename.basename.sub(/^[0-9\-]+/, "").sub(/\.markdown$/, ".html")
   end
 
   def self.from_file(filename)

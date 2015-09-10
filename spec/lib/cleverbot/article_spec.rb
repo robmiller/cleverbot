@@ -60,7 +60,7 @@ describe Article do
         filename: "/var/foo/2015-01-01-an-article.markdown",
       )
 
-      expect(article.url("http://example.com")).to eq("http://example.com/foo/an-article")
+      expect(article.url("http://example.com")).to eq("http://example.com/foo/an-article.html")
     end
   end
 end
