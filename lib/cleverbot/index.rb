@@ -2,6 +2,8 @@ require "phrasie"
 require "json"
 
 class Index
+  class NotFound < Exception; end
+
   def initialize(index = {})
     @index = index
   end
@@ -29,18 +31,17 @@ class Index
   end
 
   def self.load(file)
-    if file.respond_to?(:read)
-      contents = file.read
-    else
-      contents = File.read(file)
+    begin
+      if file.respond_to?(:read)
+        contents = file.read
+      else
+        contents = File.read(file)
+      end
+    rescue Errno::ENOENT
+      raise NotFound, %(Index file #{file} not found)
     end
 
-    index = JSON.parse(contents)
-    index.each do |_, files|
-      files.map! { |f| Pathname(f).realpath }
-    end
-
-    new(index)
+    new(load_json(contents))
   end
 
   def self.build(corpus)
@@ -75,5 +76,14 @@ class Index
     return if @index[keyword].include?(article.filename)
 
     @index[keyword] << article.filename
+  end
+
+  def self.load_json(contents)
+    index = JSON.parse(contents)
+    index.each do |_, files|
+      files.map! { |f| Pathname(f).realpath }
+    end
+
+    index
   end
 end

@@ -16,12 +16,24 @@ describe Index do
   end
 
   describe ".load" do
-    it "loads an index from a file" do
+    it "loads an index from an IO object" do
       file = StringIO.new
       index.persist(file)
       file.rewind
       index = Index.load(file)
       expect(index.find("foo").length).to eq(1)
+    end
+
+    it "loads an index from a file" do
+      test_index = sample_dir + "test_index.json"
+      File.unlink(test_index) if File.exist?(test_index)
+      index.persist(test_index)
+      index = Index.load(test_index)
+      expect(index.find("foo").length).to eq(1)
+    end
+
+    it "raises an error if the file doesn't exist" do
+      expect{Index.load("nonexistent.json")}.to raise_error(Index::NotFound)
     end
   end
 

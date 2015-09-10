@@ -1,4 +1,5 @@
 require "pathname"
+require "pry"
 
 require_relative "cleverbot/corpus"
 require_relative "cleverbot/scanner"
