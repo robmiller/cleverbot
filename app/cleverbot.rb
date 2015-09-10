@@ -27,6 +27,13 @@ post "/search" do
     (Digest::SHA256.hexdigest(source_directory) + ".json")
 
   begin
+    notifier = Slack::Notifier.new(
+      ENV.fetch("SLACK_WEBHOOK_URL"),
+      channel: params[:channel_id],
+    )
+
+    notifier.ping("#{params[:user_name]} searched for #{params[:text]}...")
+
     index = Index.load(index_file)
 
     @query    = params[:text]
@@ -34,11 +41,6 @@ post "/search" do
     @articles = @articles.map { |a| Article.from_file(a) }
 
     @base_url = ENV.fetch("SITE_URL")
-
-    notifier = Slack::Notifier.new(
-      ENV.fetch("SLACK_WEBHOOK_URL"),
-      channel: params[:channel_id],
-    )
 
     message = erb :message
     notifier.ping(message)
