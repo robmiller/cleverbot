@@ -42,6 +42,8 @@ post "/search" do
 
     message = erb :message
     notifier.ping(message)
+
+    "Searching for your query..."
   rescue Index::NotFound
     halt 500, "Index not built"
   end
